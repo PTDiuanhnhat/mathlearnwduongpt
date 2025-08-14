@@ -1,0 +1,1733 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MathLearn - Học Toán Dễ Dàng</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #fce7f3 0%, #f3e8ff 50%, #fef3c7 100%);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        .slide-in {
+            animation: slideIn 0.8s ease-out;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="min-h-screen gradient-bg">
+    <!-- Navigation -->
+    <nav class="bg-white/90 backdrop-blur-sm shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <div class="w-10 h-10 bg-gradient-to-r from-pink-500 to-purple-500 rounded-lg flex items-center justify-center mr-3">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        <span class="text-2xl font-bold text-gray-800">MathLearn</span>
+                    </div>
+                </div>
+                
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#home" onclick="scrollToSection('home')" class="text-gray-700 hover:text-pink-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Trang chủ</a>
+                        <button onclick="showLearningModal()" class="text-gray-700 hover:text-pink-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Học bài</button>
+                        <button onclick="showPracticeModal()" class="text-gray-700 hover:text-pink-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Luyện tập</button>
+                        <button onclick="showExamBankModal()" class="text-gray-700 hover:text-pink-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Kho đề thi</button>
+                        <button onclick="showChatModal()" class="text-gray-700 hover:text-pink-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Chat AI</button>
+                        <button onclick="showLoginModal()" class="bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 transform hover:scale-105">
+                            Đăng nhập
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button onclick="toggleMobileMenu()" class="text-gray-700 hover:text-pink-600 p-2">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div id="mobileMenu" class="md:hidden hidden bg-white/95 backdrop-blur-sm">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="#home" onclick="scrollToSection('home'); toggleMobileMenu();" class="text-gray-700 hover:text-pink-600 block px-3 py-2 rounded-md text-base font-medium">Trang chủ</a>
+                <button onclick="showLearningModal(); toggleMobileMenu();" class="w-full text-left text-gray-700 hover:text-pink-600 block px-3 py-2 rounded-md text-base font-medium">Học bài</button>
+                <button onclick="showPracticeModal(); toggleMobileMenu();" class="w-full text-left text-gray-700 hover:text-pink-600 block px-3 py-2 rounded-md text-base font-medium">Luyện tập</button>
+                <button onclick="showExamBankModal(); toggleMobileMenu();" class="w-full text-left text-gray-700 hover:text-pink-600 block px-3 py-2 rounded-md text-base font-medium">Kho đề thi</button>
+                <button onclick="showChatModal(); toggleMobileMenu();" class="w-full text-left text-gray-700 hover:text-pink-600 block px-3 py-2 rounded-md text-base font-medium">Chat AI</button>
+                <button onclick="showLoginModal(); toggleMobileMenu();" class="w-full text-left bg-gradient-to-r from-pink-500 to-purple-500 text-white px-3 py-2 rounded-md text-base font-medium">
+                    Đăng nhập
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="py-20 px-4">
+        <div class="max-w-6xl mx-auto text-center slide-in">
+            <div class="floating mb-8">
+                <div class="inline-block p-4 bg-white/20 rounded-full">
+                    <svg class="w-16 h-16 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-600">Học Toán không khó cùng MathLearn!</span>
+            </h1>
+            <div class="max-w-4xl mx-auto mb-8">
+                <p class="text-lg text-gray-700 leading-relaxed mb-6">
+                    Chủ đề <strong>"Hàm số, đồ thị và ứng dụng"</strong> là nội dung trọng tâm của chương trình Toán lớp 10 trong Chương trình Giáo dục phổ thông 2018, là phần kiến thức nền tảng, có vai trò kết nối giữa Đại số và Giải tích, kéo dài xuyên suốt chương trình trung học phổ thông, đồng thời góp phần phát triển tư duy hàm, năng lực lập luận và khả năng ứng dụng toán học vào thực tiễn.
+                </p>
+                <p class="text-xl text-purple-600 font-bold">
+                    Khám phá thế giới hàm số, đồ thị và ứng dụng một cách dễ dàng!
+                </p>
+            </div>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button onclick="showLearningModal()" class="bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white px-8 py-4 rounded-xl text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+                    Bắt đầu học bài
+                </button>
+                <button onclick="showPracticeModal()" class="bg-white/80 hover:bg-white text-gray-800 px-8 py-4 rounded-xl text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+                    Luyện tập ngay
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Exam Bank Section -->
+    <section id="exambank" class="py-20 px-4 bg-white/30">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Kho Đề Thi</h2>
+                <p class="text-xl text-gray-600">Bộ sưu tập đề thi theo cấu trúc tốt nghiệp THPT 2018</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <!-- Topic 1 -->
+                <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg card-hover border border-pink-100">
+                    <div class="w-12 h-12 bg-gradient-to-r from-pink-400 to-rose-400 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Chủ đề 1: Hàm Số</h3>
+                    <p class="text-gray-600 mb-4">4 đề thi về hàm số, tập xác định, đồ thị và tính chất</p>
+                    <button onclick="showExamTopic('functions')" class="text-pink-600 hover:text-pink-700 font-medium transition-colors">
+                        Xem đề thi →
+                    </button>
+                </div>
+
+                <!-- Topic 2 -->
+                <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg card-hover border border-purple-100">
+                    <div class="w-12 h-12 bg-gradient-to-r from-purple-400 to-indigo-400 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Chủ đề 2: Hàm Bậc Hai</h3>
+                    <p class="text-gray-600 mb-4">4 đề thi về parabol, đỉnh, trục đối xứng và biến thiên</p>
+                    <button onclick="showExamTopic('quadratic')" class="text-purple-600 hover:text-purple-700 font-medium transition-colors">
+                        Xem đề thi →
+                    </button>
+                </div>
+
+                <!-- Topic 3 -->
+                <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg card-hover border border-blue-100">
+                    <div class="w-12 h-12 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Chủ đề 3: Dấu Tam Thức</h3>
+                    <p class="text-gray-600 mb-4">4 đề thi về dấu tam thức bậc hai và ứng dụng</p>
+                    <button onclick="showExamTopic('trinomial')" class="text-blue-600 hover:text-blue-700 font-medium transition-colors">
+                        Xem đề thi →
+                    </button>
+                </div>
+
+                <!-- Topic 4 -->
+                <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg card-hover border border-green-100">
+                    <div class="w-12 h-12 bg-gradient-to-r from-green-400 to-emerald-400 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Chủ đề 4: PT Quy Bậc Hai</h3>
+                    <p class="text-gray-600 mb-4">4 đề thi về phương trình quy về bậc hai</p>
+                    <button onclick="showExamTopic('equations')" class="text-green-600 hover:text-green-700 font-medium transition-colors">
+                        Xem đề thi →
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Comprehensive Section -->
+            <div class="bg-gradient-to-r from-orange-50 to-red-50 rounded-3xl p-8 mb-8">
+                <div class="text-center mb-8">
+                    <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-full mb-4">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-3xl font-bold text-gray-800 mb-2">Tổng Hợp Chuyên Đề</h3>
+                    <p class="text-lg text-gray-600">Đề thi tổng hợp theo cấu trúc tốt nghiệp THPT 2018</p>
+                    <div class="inline-flex items-center bg-white/80 rounded-full px-4 py-2 mt-4">
+                        <svg class="w-4 h-4 text-orange-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span class="text-sm font-medium text-gray-700">50 câu trắc nghiệm • 90 phút • Theo chương trình 2018</span>
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Comprehensive Exam 1 -->
+                    <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg card-hover border border-orange-100">
+                        <div class="w-12 h-12 bg-gradient-to-r from-orange-400 to-red-400 rounded-xl flex items-center justify-center mb-4">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+                            </svg>
+                        </div>
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">Đề Tổng Hợp 1</h4>
+                        <p class="text-gray-600 mb-3 text-sm">Tổng hợp kiến thức cơ bản các chuyên đề</p>
+                        <div class="space-y-1 mb-4 text-xs text-gray-500">
+                            <div class="flex justify-between">
+                                <span>Độ khó:</span>
+                                <span class="font-medium text-green-600">Cơ bản</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Cấu trúc:</span>
+                                <span class="font-medium">THPT 2018</span>
+                            </div>
+                        </div>
+                        <button onclick="showExamTopic('comprehensive1')" class="text-orange-600 hover:text-orange-700 font-medium transition-colors text-sm">
+                            Xem đề thi →
+                        </button>
+                    </div>
+
+                    <!-- Comprehensive Exam 2 -->
+                    <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg card-hover border border-red-100">
+                        <div class="w-12 h-12 bg-gradient-to-r from-red-400 to-pink-400 rounded-xl flex items-center justify-center mb-4">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+                            </svg>
+                        </div>
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">Đề Tổng Hợp 2</h4>
+                        <p class="text-gray-600 mb-3 text-sm">Nâng cao kỹ năng giải toán tổng hợp</p>
+                        <div class="space-y-1 mb-4 text-xs text-gray-500">
+                            <div class="flex justify-between">
+                                <span>Độ khó:</span>
+                                <span class="font-medium text-yellow-600">Trung bình</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Cấu trúc:</span>
+                                <span class="font-medium">THPT 2018</span>
+                            </div>
+                        </div>
+                        <button onclick="showExamTopic('comprehensive2')" class="text-red-600 hover:text-red-700 font-medium transition-colors text-sm">
+                            Xem đề thi →
+                        </button>
+                    </div>
+
+                    <!-- Comprehensive Exam 3 -->
+                    <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg card-hover border border-purple-100">
+                        <div class="w-12 h-12 bg-gradient-to-r from-purple-400 to-indigo-400 rounded-xl flex items-center justify-center mb-4">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+                            </svg>
+                        </div>
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">Đề Tổng Hợp 3</h4>
+                        <p class="text-gray-600 mb-3 text-sm">Thử thách với bài toán phức tạp</p>
+                        <div class="space-y-1 mb-4 text-xs text-gray-500">
+                            <div class="flex justify-between">
+                                <span>Độ khó:</span>
+                                <span class="font-medium text-orange-600">Khó</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Cấu trúc:</span>
+                                <span class="font-medium">THPT 2018</span>
+                            </div>
+                        </div>
+                        <button onclick="showExamTopic('comprehensive3')" class="text-purple-600 hover:text-purple-700 font-medium transition-colors text-sm">
+                            Xem đề thi →
+                        </button>
+                    </div>
+
+                    <!-- Comprehensive Exam 4 -->
+                    <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg card-hover border border-indigo-100">
+                        <div class="w-12 h-12 bg-gradient-to-r from-indigo-400 to-blue-400 rounded-xl flex items-center justify-center mb-4">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+                            </svg>
+                        </div>
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">Đề Tổng Hợp 4</h4>
+                        <p class="text-gray-600 mb-3 text-sm">Mô phỏng đề thi thật tốt nghiệp</p>
+                        <div class="space-y-1 mb-4 text-xs text-gray-500">
+                            <div class="flex justify-between">
+                                <span>Độ khó:</span>
+                                <span class="font-medium text-red-600">Rất khó</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Cấu trúc:</span>
+                                <span class="font-medium">THPT 2018</span>
+                            </div>
+                        </div>
+                        <button onclick="showExamTopic('comprehensive4')" class="text-indigo-600 hover:text-indigo-700 font-medium transition-colors text-sm">
+                            Xem đề thi →
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+    <!-- Floating Chat Box -->
+    <div id="chatBox" class="fixed bottom-6 right-6 z-40">
+        <!-- Chat Toggle Button -->
+        <button id="chatToggle" onclick="toggleChatBox()" class="bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 transform hover:scale-110">
+            <svg id="chatIcon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+            </svg>
+            <svg id="closeIcon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+        
+        <!-- Chat Window -->
+        <div id="chatWindow" class="hidden absolute bottom-16 right-0 w-80 h-96 bg-white rounded-2xl shadow-2xl border border-gray-200 flex flex-col overflow-hidden">
+            <!-- Chat Header -->
+            <div class="bg-gradient-to-r from-pink-500 to-purple-500 p-4 text-white">
+                <div class="flex items-center">
+                    <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center mr-3">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-sm">MathLearn AI</h4>
+                        <p class="text-xs opacity-90">Trợ lý toán học</p>
+                    </div>
+                    <div class="ml-auto">
+                        <div class="w-2 h-2 bg-green-400 rounded-full"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Chat Messages -->
+            <div id="floatingChatMessages" class="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50">
+                <div class="flex items-start">
+                    <div class="w-6 h-6 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full flex items-center justify-center mr-2 flex-shrink-0">
+                        <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                        </svg>
+                    </div>
+                    <div class="bg-white rounded-lg px-3 py-2 shadow-sm max-w-[200px]">
+                        <p class="text-sm text-gray-800">Xin chào! Tôi có thể giúp bạn về hàm số, đồ thị và parabol. Bạn cần hỗ trợ gì?</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Chat Input -->
+            <div class="p-3 bg-white border-t border-gray-200">
+                <div class="flex space-x-2">
+                    <input type="text" id="floatingChatInput" placeholder="Hỏi về hàm số..." class="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent">
+                    <button onclick="sendFloatingMessage()" class="bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white px-3 py-2 rounded-lg transition-all duration-300">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-gradient-to-r from-pink-500 to-purple-500 rounded-lg flex items-center justify-center mr-3">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        <span class="text-xl font-bold">MathLearn</span>
+                    </div>
+                    <p class="text-gray-400">Học hàm số và đồ thị dễ dàng, hiệu quả với công nghệ AI</p>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Chủ đề</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Hàm số</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Hàm bậc hai</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Tam thức bậc hai</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Phương trình</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Tính năng</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Luyện tập hàm số</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Chat AI đồ thị</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Kho đề thi</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Video bài giảng</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Liên hệ</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li>Email: support@mathlearn.vn</li>
+                        <li>Hotline: 1900 1234</li>
+                        <li>Địa chỉ: Hà Nội, Việt Nam</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 MathLearn. Tất cả quyền được bảo lưu.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl p-8 max-w-md w-full transform scale-95 transition-all duration-300">
+            <div class="text-center mb-6">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full mb-4">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    </svg>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">Đăng Nhập</h2>
+                <p class="text-gray-600">Chào mừng bạn trở lại MathLearn!</p>
+            </div>
+
+            <form id="loginForm" class="space-y-4">
+                <div>
+                    <label class="block text-gray-700 font-medium mb-2">Email hoặc Tên đăng nhập</label>
+                    <input type="text" id="loginUsername" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent" placeholder="Nhập email hoặc tên đăng nhập">
+                </div>
+                
+                <div>
+                    <label class="block text-gray-700 font-medium mb-2">Mật khẩu</label>
+                    <div class="relative">
+                        <input type="password" id="loginPassword" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent pr-12" placeholder="Nhập mật khẩu">
+                        <button type="button" onclick="toggleModalPassword()" class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                            <svg id="modalEyeIcon" class="h-5 w-5 text-gray-500 hover:text-gray-700 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <label class="flex items-center">
+                        <input type="checkbox" class="w-4 h-4 text-pink-500 border-gray-300 rounded focus:ring-pink-500">
+                        <span class="ml-2 text-sm text-gray-600">Ghi nhớ đăng nhập</span>
+                    </label>
+                    <a href="#" class="text-sm text-pink-500 hover:text-pink-600">Quên mật khẩu?</a>
+                </div>
+
+                <button type="submit" class="w-full bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-300 transform hover:scale-105">
+                    Đăng Nhập
+                </button>
+
+                <div class="relative my-6">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-300"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-4 bg-white text-gray-500">Hoặc đăng nhập với</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <button type="button" onclick="socialLogin('google')" class="flex items-center justify-center px-4 py-3 border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors">
+                        <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24">
+                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                        </svg>
+                        <span class="text-sm">Google</span>
+                    </button>
+                    <button type="button" onclick="socialLogin('facebook')" class="flex items-center justify-center px-4 py-3 border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors">
+                        <svg class="w-5 h-5 mr-2 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                        </svg>
+                        <span class="text-sm">Facebook</span>
+                    </button>
+                </div>
+            </form>
+
+            <div class="mt-6 text-center">
+                <p class="text-gray-600 text-sm">
+                    Chưa có tài khoản? 
+                    <a href="#" class="text-pink-500 hover:text-pink-600 font-medium">Đăng ký ngay</a>
+                </p>
+            </div>
+
+            <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Learning Modal -->
+    <div id="learningModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl p-8 max-w-6xl w-full max-h-[90vh] overflow-y-auto transform scale-95 transition-all duration-300">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-3xl font-bold text-gray-800">Học Bài</h2>
+                <button onclick="closeLearningModal()" class="text-gray-400 hover:text-gray-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Learning Type Tabs -->
+            <div class="flex flex-wrap gap-2 mb-6 border-b border-gray-200">
+                <button onclick="showLearningType('theory')" id="theoryTab" class="px-4 py-2 text-sm font-medium text-pink-600 border-b-2 border-pink-600 transition-colors">
+                    Lý thuyết
+                </button>
+                <button onclick="showLearningType('mindmap')" id="mindmapTab" class="px-4 py-2 text-sm font-medium text-gray-500 hover:text-pink-600 border-b-2 border-transparent transition-colors">
+                    Sơ đồ tư duy
+                </button>
+                <button onclick="showLearningType('video')" id="videoTab" class="px-4 py-2 text-sm font-medium text-gray-500 hover:text-pink-600 border-b-2 border-transparent transition-colors">
+                    Video bài giảng
+                </button>
+            </div>
+            
+            <div id="learningContent">
+                <!-- Content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Exam Bank Modal -->
+    <div id="examModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl p-8 max-w-6xl w-full max-h-[90vh] overflow-y-auto transform scale-95 transition-all duration-300">
+            <div class="flex items-center justify-between mb-6">
+                <h2 id="examModalTitle" class="text-3xl font-bold text-gray-800">Kho Đề Thi</h2>
+                <button onclick="closeExamModal()" class="text-gray-400 hover:text-gray-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <div id="examContent">
+                <!-- Content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Practice Modal -->
+    <div id="practiceModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl p-8 max-w-6xl w-full max-h-[90vh] overflow-y-auto transform scale-95 transition-all duration-300">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-3xl font-bold text-gray-800">Luyện Tập Tương Tác</h2>
+                <button onclick="closePracticeModal()" class="text-gray-400 hover:text-gray-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <div id="practiceContent">
+                <div class="text-center mb-8">
+                    <p class="text-xl text-gray-600 mb-8">Kiểm tra kiến thức với các câu hỏi về hàm số và đồ thị</p>
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-6">Chọn chủ đề để bắt đầu luyện tập</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <button onclick="startPractice('functions')" class="bg-gradient-to-r from-pink-400 to-rose-400 hover:from-pink-500 hover:to-rose-500 text-white px-6 py-4 rounded-xl font-medium transition-all duration-300 transform hover:scale-105">
+                            <div class="text-left">
+                                <div class="font-semibold">Chủ đề 1: Hàm Số</div>
+                                <div class="text-sm opacity-90">Khái niệm, tập xác định, đồ thị</div>
+                            </div>
+                        </button>
+                        <button onclick="startPractice('quadratic')" class="bg-gradient-to-r from-purple-400 to-indigo-400 hover:from-purple-500 hover:to-indigo-500 text-white px-6 py-4 rounded-xl font-medium transition-all duration-300 transform hover:scale-105">
+                            <div class="text-left">
+                                <div class="font-semibold">Chủ đề 2: Hàm Số Bậc Hai</div>
+                                <div class="text-sm opacity-90">Parabol, đỉnh, trục đối xứng</div>
+                            </div>
+                        </button>
+                        <button onclick="startPractice('trinomial')" class="bg-gradient-to-r from-blue-400 to-cyan-400 hover:from-blue-500 hover:to-cyan-500 text-white px-6 py-4 rounded-xl font-medium transition-all duration-300 transform hover:scale-105">
+                            <div class="text-left">
+                                <div class="font-semibold">Chủ đề 3: Dấu Tam Thức Bậc Hai</div>
+                                <div class="text-sm opacity-90">Biệt thức, xét dấu, ứng dụng</div>
+                            </div>
+                        </button>
+                        <button onclick="startPractice('equations')" class="bg-gradient-to-r from-green-400 to-emerald-400 hover:from-green-500 hover:to-emerald-500 text-white px-6 py-4 rounded-xl font-medium transition-all duration-300 transform hover:scale-105">
+                            <div class="text-left">
+                                <div class="font-semibold">Chủ đề 4: PT Quy Về Bậc Hai</div>
+                                <div class="text-sm opacity-90">Trùng phương, chứa ẩn mẫu, vô tỷ</div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat AI Modal -->
+    <div id="chatModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl p-8 max-w-4xl w-full max-h-[90vh] overflow-y-auto transform scale-95 transition-all duration-300">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-3xl font-bold text-gray-800">Chat AI Hỗ Trợ</h2>
+                <button onclick="closeChatModal()" class="text-gray-400 hover:text-gray-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="text-center mb-8">
+                <p class="text-xl text-gray-600">Hỏi đáp với AI về hàm số, đồ thị và các vấn đề liên quan</p>
+            </div>
+            
+            <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-pink-500 to-purple-500 p-4">
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center mr-3">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-white font-semibold">MathLearn AI</h3>
+                            <p class="text-white/80 text-sm">Chuyên gia hàm số và đồ thị</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="chatMessages" class="h-80 overflow-y-auto p-6 space-y-4">
+                    <div class="flex items-start">
+                        <div class="w-8 h-8 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                            </svg>
+                        </div>
+                        <div class="bg-gray-100 rounded-2xl px-4 py-3 max-w-xs">
+                            <p class="text-gray-800">Xin chào! Tôi có thể giúp bạn giải đáp các câu hỏi về hàm số, đồ thị, parabol và các chủ đề liên quan. Bạn cần hỗ trợ gì?</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="p-6 border-t border-gray-200">
+                    <div class="flex space-x-4">
+                        <input type="text" id="chatInput" placeholder="Hỏi về hàm số, đồ thị, parabol..." class="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent">
+                        <button onclick="sendMessage()" class="bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white px-6 py-3 rounded-xl font-medium transition-all duration-300 transform hover:scale-105">
+                            Gửi
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Exam Detail Modal -->
+    <div id="examDetailModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl p-8 max-w-4xl w-full max-h-[90vh] overflow-y-auto transform scale-95 transition-all duration-300">
+            <div class="flex items-center justify-between mb-6">
+                <h2 id="examDetailTitle" class="text-2xl font-bold text-gray-800">Chi tiết đề thi</h2>
+                <button onclick="closeExamDetailModal()" class="text-gray-400 hover:text-gray-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <div id="examDetailContent">
+                <!-- Content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Smooth scroll to section
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        // Login Modal Functions
+        function showLoginModal() {
+            const modal = document.getElementById('loginModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => {
+                modal.querySelector('div').classList.remove('scale-95');
+                modal.querySelector('div').classList.add('scale-100');
+            }, 10);
+        }
+
+        function closeLoginModal() {
+            const modal = document.getElementById('loginModal');
+            modal.querySelector('div').classList.remove('scale-100');
+            modal.querySelector('div').classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+        }
+
+        function toggleModalPassword() {
+            const passwordInput = document.getElementById('loginPassword');
+            const eyeIcon = document.getElementById('modalEyeIcon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.innerHTML = `
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"></path>
+                `;
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.innerHTML = `
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                `;
+            }
+        }
+
+        // Handle login form submission
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if (!username || !password) {
+                alert('Vui lòng nhập đầy đủ thông tin!');
+                return;
+            }
+            
+            // Simulate login process
+            const button = e.target.querySelector('button[type="submit"]');
+            const originalText = button.innerHTML;
+            
+            button.innerHTML = `
+                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Đang đăng nhập...
+            `;
+            button.disabled = true;
+            
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.disabled = false;
+                closeLoginModal();
+                alert('Đăng nhập thành công! Chào mừng bạn đến với MathLearn.');
+            }, 2000);
+        });
+
+        function socialLogin(provider) {
+            alert(`Tính năng đăng nhập với ${provider} sẽ được cập nhật sớm!`);
+        }
+
+        // Exam Bank functions
+        // Practice Modal Functions
+        function showPracticeModal() {
+            const modal = document.getElementById('practiceModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => {
+                modal.querySelector('div').classList.remove('scale-95');
+                modal.querySelector('div').classList.add('scale-100');
+            }, 10);
+        }
+
+        function closePracticeModal() {
+            const modal = document.getElementById('practiceModal');
+            modal.querySelector('div').classList.remove('scale-100');
+            modal.querySelector('div').classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+        }
+
+        // Chat Modal Functions
+        function showChatModal() {
+            const modal = document.getElementById('chatModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => {
+                modal.querySelector('div').classList.remove('scale-95');
+                modal.querySelector('div').classList.add('scale-100');
+            }, 10);
+        }
+
+        function closeChatModal() {
+            const modal = document.getElementById('chatModal');
+            modal.querySelector('div').classList.remove('scale-100');
+            modal.querySelector('div').classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+        }
+
+        // Exam Bank Modal Functions
+        function showExamBankModal() {
+            showExamTopic('main');
+        }
+
+        function showExamTopic(topic) {
+            const modal = document.getElementById('examModal');
+            const title = document.getElementById('examModalTitle');
+            const content = document.getElementById('examContent');
+            
+            const topicTitles = {
+                functions: 'Chủ đề 1: Hàm Số',
+                quadratic: 'Chủ đề 2: Hàm Bậc Hai',
+                trinomial: 'Chủ đề 3: Dấu Tam Thức Bậc Hai',
+                equations: 'Chủ đề 4: Phương Trình Quy Về Bậc Hai',
+                comprehensive1: 'Tổng Hợp Chuyên Đề 1',
+                comprehensive2: 'Tổng Hợp Chuyên Đề 2',
+                comprehensive3: 'Tổng Hợp Chuyên Đề 3',
+                comprehensive4: 'Tổng Hợp Chuyên Đề 4'
+            };
+            
+            title.textContent = topicTitles[topic];
+            
+            content.innerHTML = `
+                <div class="grid md:grid-cols-2 gap-6">
+                    ${generateExamCards(topic)}
+                </div>
+            `;
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => {
+                modal.querySelector('div').classList.remove('scale-95');
+                modal.querySelector('div').classList.add('scale-100');
+            }, 10);
+        }
+
+        function generateExamCards(topic) {
+            const examColors = [
+                'from-pink-400 to-rose-400',
+                'from-purple-400 to-indigo-400',
+                'from-blue-400 to-cyan-400',
+                'from-green-400 to-emerald-400'
+            ];
+            
+            return Array.from({length: 4}, (_, i) => `
+                <div class="bg-white border border-gray-200 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-gradient-to-r ${examColors[i]} rounded-xl flex items-center justify-center mr-4">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800">Đề thi ${i + 1}</h3>
+                            <p class="text-sm text-gray-500">50 câu trắc nghiệm</p>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-2 mb-4">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-600">Thời gian:</span>
+                            <span class="font-medium">90 phút</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-600">Độ khó:</span>
+                            <span class="font-medium">${['Dễ', 'Trung bình', 'Khó', 'Rất khó'][i]}</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-600">Điểm tối đa:</span>
+                            <span class="font-medium">10.0</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-2">
+                        <button onclick="startExam('${topic}', ${i + 1})" class="w-full bg-gradient-to-r ${examColors[i]} hover:opacity-90 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300">
+                            Làm bài
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function closeExamModal() {
+            const modal = document.getElementById('examModal');
+            modal.querySelector('div').classList.remove('scale-100');
+            modal.querySelector('div').classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+        }
+
+        function showExamDetail(topic, examNumber) {
+            const modal = document.getElementById('examDetailModal');
+            const title = document.getElementById('examDetailTitle');
+            const content = document.getElementById('examDetailContent');
+            
+            const topicTitles = {
+                functions: 'Hàm Số',
+                quadratic: 'Hàm Bậc Hai',
+                trinomial: 'Dấu Tam Thức Bậc Hai',
+                equations: 'Phương Trình Quy Về Bậc Hai'
+            };
+            
+            title.textContent = `${topicTitles[topic]} - Đề ${examNumber}`;
+            
+            content.innerHTML = generateExamContent(topic, examNumber);
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => {
+                modal.querySelector('div').classList.remove('scale-95');
+                modal.querySelector('div').classList.add('scale-100');
+            }, 10);
+        }
+
+        function generateExamContent(topic, examNumber) {
+            const examQuestions = generateExamQuestions(topic, examNumber);
+            
+            return `
+                <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-6 mb-6">
+                    <div class="grid md:grid-cols-3 gap-4 text-center">
+                        <div class="bg-white rounded-lg p-4">
+                            <div class="text-2xl font-bold text-pink-600">50</div>
+                            <div class="text-sm text-gray-600">Câu hỏi</div>
+                        </div>
+                        <div class="bg-white rounded-lg p-4">
+                            <div class="text-2xl font-bold text-purple-600">90</div>
+                            <div class="text-sm text-gray-600">Phút</div>
+                        </div>
+                        <div class="bg-white rounded-lg p-4">
+                            <div class="text-2xl font-bold text-blue-600">10.0</div>
+                            <div class="text-sm text-gray-600">Điểm tối đa</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="space-y-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Một số câu hỏi mẫu:</h3>
+                    ${examQuestions.map((q, index) => `
+                        <div class="bg-white border border-gray-200 rounded-lg p-6">
+                            <h4 class="font-semibold text-gray-800 mb-3">Câu ${index + 1}: ${q.question}</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                ${q.options.map((option, i) => `
+                                    <div class="p-2 bg-gray-50 rounded text-sm">
+                                        <span class="font-medium">${String.fromCharCode(65 + i)}.</span> ${option}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+                
+                <div class="mt-8 flex gap-4 justify-center">
+                    <button onclick="startExam('${topic}', ${examNumber})" class="bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white px-8 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105">
+                        Bắt đầu làm bài
+                    </button>
+                    <button onclick="closeExamDetailModal()" class="bg-gray-100 hover:bg-gray-200 text-gray-800 px-8 py-3 rounded-xl font-semibold transition-all duration-300">
+                        Đóng
+                    </button>
+                </div>
+            `;
+        }
+
+        function generateExamQuestions(topic, examNumber) {
+            const questionSets = {
+                functions: [
+                    {
+                        question: "Tập xác định của hàm số y = √(2x - 4) là:",
+                        options: ["[2; +∞)", "(-∞; 2]", "(2; +∞)", "ℝ"]
+                    },
+                    {
+                        question: "Hàm số y = 3x - 1 có tính chất nào sau đây?",
+                        options: ["Đồng biến trên ℝ", "Nghịch biến trên ℝ", "Không đơn điệu", "Chỉ xác định trên (0; +∞)"]
+                    },
+                    {
+                        question: "Đồ thị hàm số y = |x - 1| có dạng:",
+                        options: ["Đường thẳng", "Parabol", "Hình chữ V", "Đường tròn"]
+                    }
+                ],
+                quadratic: [
+                    {
+                        question: "Đỉnh của parabol y = x² - 4x + 5 là:",
+                        options: ["(2; 1)", "(-2; 1)", "(2; -1)", "(-2; -1)"]
+                    },
+                    {
+                        question: "Hàm số y = -2x² + 4x + 1 có giá trị lớn nhất là:",
+                        options: ["3", "1", "2", "-1"]
+                    },
+                    {
+                        question: "Trục đối xứng của parabol y = 3x² - 6x + 2 là:",
+                        options: ["x = 1", "x = -1", "x = 2", "x = -2"]
+                    }
+                ],
+                trinomial: [
+                    {
+                        question: "Tam thức f(x) = x² - 6x + 8 có nghiệm là:",
+                        options: ["x = 2, x = 4", "x = 1, x = 8", "x = -2, x = -4", "Vô nghiệm"]
+                    },
+                    {
+                        question: "Với giá trị nào của m thì tam thức x² - 2x + m luôn dương?",
+                        options: ["m > 1", "m < 1", "m ≥ 1", "m ≤ 1"]
+                    },
+                    {
+                        question: "Biệt thức Δ của tam thức 2x² - 5x + 3 là:",
+                        options: ["1", "-1", "25", "49"]
+                    }
+                ],
+                equations: [
+                    {
+                        question: "Phương trình x⁴ - 10x² + 9 = 0 có bao nhiêu nghiệm?",
+                        options: ["4 nghiệm", "2 nghiệm", "1 nghiệm", "Vô nghiệm"]
+                    },
+                    {
+                        question: "Nghiệm của phương trình √(x + 3) = x - 1 là:",
+                        options: ["x = 1", "x = 6", "x = 1 hoặc x = 6", "Vô nghiệm"]
+                    },
+                    {
+                        question: "Điều kiện xác định của phương trình 1/(x-2) + 1/(x+1) = 3 là:",
+                        options: ["x ≠ 2 và x ≠ -1", "x ≠ 2", "x ≠ -1", "x ∈ ℝ"]
+                    }
+                ],
+                comprehensive1: [
+                    {
+                        question: "Tập xác định của hàm số y = √(x - 2) + 1/(x + 1) là:",
+                        options: ["[2; +∞) \\ {-1}", "[2; +∞)", "(-∞; -1) ∪ [2; +∞)", "ℝ \\ {-1}"]
+                    },
+                    {
+                        question: "Parabol y = x² - 6x + 8 có đỉnh tại điểm:",
+                        options: ["(3; -1)", "(-3; 1)", "(3; 1)", "(6; 8)"]
+                    },
+                    {
+                        question: "Tam thức f(x) = x² - 5x + 6 có nghiệm là:",
+                        options: ["x = 2, x = 3", "x = 1, x = 6", "x = -2, x = -3", "Vô nghiệm"]
+                    }
+                ],
+                comprehensive2: [
+                    {
+                        question: "Hàm số y = (3x - 2)/(x + 2) có tiệm cận ngang là:",
+                        options: ["y = 3", "y = -2", "y = 2/3", "y = -3/2"]
+                    },
+                    {
+                        question: "Đồ thị hàm số y = x² - 4x + 5 có trục đối xứng là:",
+                        options: ["x = 2", "x = -2", "x = 4", "x = 5"]
+                    },
+                    {
+                        question: "Phương trình √(x + 2) = x có nghiệm là:",
+                        options: ["x = 2", "x = -1", "x = 2 hoặc x = -1", "Vô nghiệm"]
+                    }
+                ],
+                comprehensive3: [
+                    {
+                        question: "Số điểm cực trị của hàm số y = |x² - 6x + 8| là:",
+                        options: ["3", "2", "1", "4"]
+                    },
+                    {
+                        question: "Phương trình x⁴ - 8x² + 15 = 0 có tổng các nghiệm là:",
+                        options: ["0", "8", "15", "-8"]
+                    },
+                    {
+                        question: "Hàm số y = (x² - 1)/(x - 1) có tập xác định là:",
+                        options: ["ℝ \\ {1}", "ℝ \\ {-1, 1}", "ℝ", "(-∞; 1) ∪ (1; +∞)"]
+                    }
+                ],
+                comprehensive4: [
+                    {
+                        question: "Đồ thị hàm số y = x³ - 3x + 2 cắt trục hoành tại bao nhiêu điểm?",
+                        options: ["3", "2", "1", "0"]
+                    },
+                    {
+                        question: "Phương trình √(2x + 3) + √(x - 1) = 4 có nghiệm thuộc khoảng:",
+                        options: ["(5; 6)", "(1; 2)", "(3; 4)", "(7; 8)"]
+                    },
+                    {
+                        question: "Giá trị lớn nhất của hàm số y = -x² + 4x - 1 trên đoạn [0; 3] là:",
+                        options: ["3", "2", "1", "0"]
+                    }
+                ]
+            };
+            
+            return questionSets[topic] || questionSets.functions;
+        }
+
+        function closeExamDetailModal() {
+            const modal = document.getElementById('examDetailModal');
+            modal.querySelector('div').classList.remove('scale-100');
+            modal.querySelector('div').classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+        }
+
+        function startExam(topic, examNumber) {
+            closeExamDetailModal();
+            closeExamModal();
+            alert(`Bắt đầu làm bài thi ${topic} - Đề ${examNumber}. Chúc bạn làm bài tốt!`);
+            // Here you would implement the actual exam interface
+        }
+
+        // Practice functions
+        function startPractice(topic) {
+            const practiceContent = document.getElementById('practiceContent');
+            
+            const questions = {
+                functions: [
+                    {
+                        question: "Tìm tập xác định của hàm số y = √(x - 2)",
+                        options: ["[2; +∞)", "(-∞; 2]", "(2; +∞)", "ℝ"],
+                        correct: 0
+                    },
+                    {
+                        question: "Hàm số y = 2x + 1 có tính chất gì?",
+                        options: ["Đồng biến trên ℝ", "Nghịch biến trên ℝ", "Không đơn điệu", "Chỉ xác định trên (0; +∞)"],
+                        correct: 0
+                    }
+                ],
+                quadratic: [
+                    {
+                        question: "Đỉnh của parabol y = x² - 4x + 3 là:",
+                        options: ["(2; -1)", "(-2; 1)", "(2; 1)", "(-2; -1)"],
+                        correct: 0
+                    },
+                    {
+                        question: "Hàm số y = -x² + 2x + 1 có giá trị lớn nhất là:",
+                        options: ["2", "1", "0", "-1"],
+                        correct: 0
+                    }
+                ],
+                trinomial: [
+                    {
+                        question: "Tam thức f(x) = x² - 5x + 6 có nghiệm là:",
+                        options: ["x = 2, x = 3", "x = 1, x = 6", "x = -2, x = -3", "Vô nghiệm"],
+                        correct: 0
+                    }
+                ],
+                equations: [
+                    {
+                        question: "Phương trình x⁴ - 5x² + 4 = 0 có bao nhiêu nghiệm?",
+                        options: ["4 nghiệm", "2 nghiệm", "1 nghiệm", "Vô nghiệm"],
+                        correct: 0
+                    }
+                ]
+            };
+            
+            const topicQuestions = questions[topic] || questions.functions;
+            let currentQuestion = 0;
+            let score = 0;
+            
+            function showQuestion() {
+                const q = topicQuestions[currentQuestion];
+                practiceContent.innerHTML = `
+                    <div class="text-center mb-6">
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-2">Câu hỏi ${currentQuestion + 1}/${topicQuestions.length}</h3>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-gradient-to-r from-pink-500 to-purple-500 h-2 rounded-full transition-all duration-300" style="width: ${((currentQuestion + 1) / topicQuestions.length) * 100}%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-8">
+                        <h4 class="text-xl font-medium text-gray-800 mb-6">${q.question}</h4>
+                        <div class="space-y-3">
+                            ${q.options.map((option, index) => `
+                                <button onclick="selectAnswer(${index})" class="w-full text-left p-4 border border-gray-300 rounded-xl hover:border-pink-500 hover:bg-pink-50 transition-all duration-300 answer-option">
+                                    <span class="font-medium">${String.fromCharCode(65 + index)}.</span> ${option}
+                                </button>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            window.selectAnswer = function(selectedIndex) {
+                const options = document.querySelectorAll('.answer-option');
+                const q = topicQuestions[currentQuestion];
+                
+                options.forEach((option, index) => {
+                    option.classList.remove('hover:border-pink-500', 'hover:bg-pink-50');
+                    if (index === q.correct) {
+                        option.classList.add('border-green-500', 'bg-green-50');
+                    } else if (index === selectedIndex && index !== q.correct) {
+                        option.classList.add('border-red-500', 'bg-red-50');
+                    }
+                });
+                
+                if (selectedIndex === q.correct) {
+                    score++;
+                }
+                
+                setTimeout(() => {
+                    currentQuestion++;
+                    if (currentQuestion < topicQuestions.length) {
+                        showQuestion();
+                    } else {
+                        showResult();
+                    }
+                }, 1500);
+            };
+            
+            function showResult() {
+                const percentage = Math.round((score / topicQuestions.length) * 100);
+                practiceContent.innerHTML = `
+                    <div class="text-center">
+                        <div class="w-24 h-24 mx-auto mb-6 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full flex items-center justify-center">
+                            <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-3xl font-bold text-gray-800 mb-4">Hoàn thành!</h3>
+                        <p class="text-xl text-gray-600 mb-6">Bạn đã trả lời đúng ${score}/${topicQuestions.length} câu hỏi</p>
+                        <div class="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-500 mb-8">
+                            ${percentage}%
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                            <button onclick="startPractice('${topic}')" class="bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white px-6 py-3 rounded-xl font-medium transition-all duration-300 transform hover:scale-105">
+                                Làm lại
+                            </button>
+                            <button onclick="location.reload()" class="bg-white hover:bg-gray-50 text-gray-800 px-6 py-3 rounded-xl font-medium border border-gray-300 transition-all duration-300 transform hover:scale-105">
+                                Chọn chủ đề khác
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            showQuestion();
+        }
+
+        // Chat functions with specialized content
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            const chatMessages = document.getElementById('chatMessages');
+            
+            // Add user message
+            chatMessages.innerHTML += `
+                <div class="flex items-start justify-end">
+                    <div class="bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-2xl px-4 py-3 max-w-xs">
+                        <p>${message}</p>
+                    </div>
+                    <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center ml-3 flex-shrink-0">
+                        <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                        </svg>
+                    </div>
+                </div>
+            `;
+            
+            input.value = '';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            // Generate AI response based on message content
+            setTimeout(() => {
+                const aiResponse = generateAIResponse(message);
+                
+                chatMessages.innerHTML += `
+                    <div class="flex items-start">
+                        <div class="w-8 h-8 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                            </svg>
+                        </div>
+                        <div class="bg-gray-100 rounded-2xl px-4 py-3 max-w-xs">
+                            <p class="text-gray-800">${aiResponse}</p>
+                        </div>
+                    </div>
+                `;
+                
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 1000);
+        }
+
+        function generateAIResponse(message) {
+            const lowerMessage = message.toLowerCase();
+            
+            // Hàm số đồ thị responses
+            if (lowerMessage.includes('đồ thị') || lowerMessage.includes('do thi')) {
+                const graphResponses = [
+                    "Để vẽ đồ thị hàm số, bạn cần: 1) Tìm tập xác định, 2) Xét tính chẵn lệ, 3) Tìm giao điểm với trục tọa độ, 4) Lập bảng biến thiên, 5) Vẽ đồ thị.",
+                    "Đồ thị hàm số bậc hai y = ax² + bx + c là parabol có đỉnh I(-b/2a, -Δ/4a) và trục đối xứng x = -b/2a.",
+                    "Để đọc đồ thị hàm số: quan sát tập xác định, tập giá trị, tính đơn điệu, cực trị và giao điểm với các trục.",
+                    "Phép biến đổi đồ thị: Tịnh tiến (y = f(x-a) + b), Đối xứng (y = -f(x), y = f(-x)), Co giãn (y = af(x), y = f(ax))."
+                ];
+                return graphResponses[Math.floor(Math.random() * graphResponses.length)];
+            }
+            
+            if (lowerMessage.includes('parabol') || lowerMessage.includes('bậc hai')) {
+                const parabolResponses = [
+                    "Parabol y = ax² + bx + c có: Đỉnh I(-b/2a, -Δ/4a), trục đối xứng x = -b/2a. Nếu a > 0: bề lõm hướng lên, nếu a < 0: bề lõm hướng xuống.",
+                    "Để tìm giao điểm parabol với trục Ox: giải ax² + bx + c = 0. Với trục Oy: thay x = 0 được y = c.",
+                    "Parabol cắt trục hoành tại 2 điểm khi Δ > 0, tiếp xúc khi Δ = 0, không cắt khi Δ < 0."
+                ];
+                return parabolResponses[Math.floor(Math.random() * parabolResponses.length)];
+            }
+            
+            if (lowerMessage.includes('biến đổi') || lowerMessage.includes('tịnh tiến') || lowerMessage.includes('đối xứng')) {
+                const transformResponses = [
+                    "Tịnh tiến đồ thị: y = f(x-a) + b (sang phải a đơn vị, lên b đơn vị). Ví dụ: y = (x-2)² + 1 là parabol y = x² tịnh tiến sang phải 2, lên 1.",
+                    "Đối xứng qua Ox: y = -f(x), qua Oy: y = f(-x), qua gốc tọa độ: y = -f(-x).",
+                    "Co giãn theo Oy: y = af(x) (a > 1: giãn, 0 < a < 1: co). Co giãn theo Ox: y = f(ax) (a > 1: co, 0 < a < 1: giãn)."
+                ];
+                return transformResponses[Math.floor(Math.random() * transformResponses.length)];
+            }
+            
+            if (lowerMessage.includes('cực trị') || lowerMessage.includes('cực đại') || lowerMessage.includes('cực tiểu')) {
+                return "Cực trị của hàm số: f'(x) = 0 và f''(x) ≠ 0. Nếu f''(x) > 0: cực tiểu, f''(x) < 0: cực đại. Trên đồ thị, cực trị là điểm cao nhất/thấp nhất cục bộ.";
+            }
+            
+            if (lowerMessage.includes('tiệm cận')) {
+                const asymptoteResponses = [
+                    "Tiệm cận đứng x = a khi lim f(x) = ±∞ (x→a). Tiệm cận ngang y = b khi lim f(x) = b (x→±∞).",
+                    "Hàm phân thức y = (ax+b)/(cx+d) có tiệm cận đứng x = -d/c và tiệm cận ngang y = a/c (khi c ≠ 0)."
+                ];
+                return asymptoteResponses[Math.floor(Math.random() * asymptoteResponses.length)];
+            }
+            
+            if (lowerMessage.includes('đơn điệu') || lowerMessage.includes('tăng') || lowerMessage.includes('giảm')) {
+                return "Hàm số đồng biến (tăng) khi f'(x) > 0, nghịch biến (giảm) khi f'(x) < 0. Trên đồ thị: đường đi lên từ trái sang phải là tăng, đi xuống là giảm.";
+            }
+            
+            if (lowerMessage.includes('giao điểm')) {
+                return "Giao điểm với Ox: giải f(x) = 0. Giao điểm với Oy: tính f(0). Giao điểm 2 đồ thị: giải f(x) = g(x).";
+            }
+            
+            // Default responses for other math topics
+            const generalResponses = [
+                "Đây là một câu hỏi hay về toán học! Bạn có thể cụ thể hơn về chủ đề nào không?",
+                "Tôi hiểu câu hỏi của bạn. Hãy cùng phân tích từng bước một cách chi tiết.",
+                "Đối với dạng bài này, phương pháp hiệu quả nhất là áp dụng định lý và công thức cơ bản.",
+                "Bạn có thể tham khảo ví dụ tương tự trong phần lý thuyết để hiểu rõ hơn.",
+                "Để giải quyết vấn đề này, chúng ta cần xem xét các trường hợp khác nhau."
+            ];
+            
+            return generalResponses[Math.floor(Math.random() * generalResponses.length)];
+        }
+
+        // Allow Enter key to send message
+        document.getElementById('chatInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Floating Chat Box Functions
+        function toggleChatBox() {
+            const chatWindow = document.getElementById('chatWindow');
+            const chatIcon = document.getElementById('chatIcon');
+            const closeIcon = document.getElementById('closeIcon');
+            
+            if (chatWindow.classList.contains('hidden')) {
+                chatWindow.classList.remove('hidden');
+                chatIcon.classList.add('hidden');
+                closeIcon.classList.remove('hidden');
+            } else {
+                chatWindow.classList.add('hidden');
+                chatIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+            }
+        }
+
+        function sendFloatingMessage() {
+            const input = document.getElementById('floatingChatInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            const chatMessages = document.getElementById('floatingChatMessages');
+            
+            // Add user message
+            chatMessages.innerHTML += `
+                <div class="flex items-start justify-end">
+                    <div class="bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-lg px-3 py-2 max-w-[200px]">
+                        <p class="text-sm">${message}</p>
+                    </div>
+                    <div class="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center ml-2 flex-shrink-0">
+                        <svg class="w-3 h-3 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                        </svg>
+                    </div>
+                </div>
+            `;
+            
+            input.value = '';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            // Generate AI response using the same logic as main chat
+            setTimeout(() => {
+                const aiResponse = generateAIResponse(message);
+                
+                chatMessages.innerHTML += `
+                    <div class="flex items-start">
+                        <div class="w-6 h-6 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full flex items-center justify-center mr-2 flex-shrink-0">
+                            <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                            </svg>
+                        </div>
+                        <div class="bg-white rounded-lg px-3 py-2 shadow-sm max-w-[200px]">
+                            <p class="text-sm text-gray-800">${aiResponse}</p>
+                        </div>
+                    </div>
+                `;
+                
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 1000);
+        }
+
+        // Allow Enter key to send floating message
+        document.getElementById('floatingChatInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendFloatingMessage();
+            }
+        });
+
+        // Learning Modal Functions
+        function showLearningModal() {
+            const modal = document.getElementById('learningModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => {
+                modal.querySelector('div').classList.remove('scale-95');
+                modal.querySelector('div').classList.add('scale-100');
+            }, 10);
+            
+            // Show theory by default
+            showLearningType('theory');
+        }
+
+        function closeLearningModal() {
+            const modal = document.getElementById('learningModal');
+            modal.querySelector('div').classList.remove('scale-100');
+            modal.querySelector('div').classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+        }
+
+        function showLearningType(type) {
+            // Update tabs
+            const tabs = ['theoryTab', 'mindmapTab', 'videoTab'];
+            tabs.forEach(tabId => {
+                const tab = document.getElementById(tabId);
+                tab.classList.remove('text-pink-600', 'border-pink-600');
+                tab.classList.add('text-gray-500', 'border-transparent');
+            });
+            
+            const activeTab = document.getElementById(type + 'Tab');
+            activeTab.classList.remove('text-gray-500', 'border-transparent');
+            activeTab.classList.add('text-pink-600', 'border-pink-600');
+            
+            // Update content
+            const content = document.getElementById('learningContent');
+            
+            if (type === 'theory') {
+                content.innerHTML = `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        ${generateTopicCards('theory')}
+                    </div>
+                `;
+            } else if (type === 'mindmap') {
+                content.innerHTML = `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        ${generateTopicCards('mindmap')}
+                    </div>
+                `;
+            } else if (type === 'video') {
+                content.innerHTML = `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        ${generateTopicCards('video')}
+                    </div>
+                `;
+            }
+        }
+
+        function generateTopicCards(type) {
+            const topics = [
+                { id: 'functions', title: 'Chủ đề 1: Hàm Số', color: 'from-pink-400 to-rose-400' },
+                { id: 'quadratic', title: 'Chủ đề 2: Hàm Số Bậc Hai', color: 'from-purple-400 to-indigo-400' },
+                { id: 'trinomial', title: 'Chủ đề 3: Dấu Tam Thức Bậc Hai', color: 'from-blue-400 to-cyan-400' },
+                { id: 'equations', title: 'Chủ đề 4: PT Quy Về Bậc Hai', color: 'from-green-400 to-emerald-400' }
+            ];
+            
+            return topics.map(topic => `
+                <div class="bg-white border border-gray-200 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-gradient-to-r ${topic.color} rounded-xl flex items-center justify-center mr-4">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-800">${topic.title}</h3>
+                    </div>
+                    <div class="space-y-3">
+                        ${generateLessons(topic.id, type)}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function generateLessons(topicId, type) {
+            const lessons = [
+                'Bài 1: Khái niệm cơ bản',
+                'Bài 2: Tính chất và đặc điểm',
+                'Bài 3: Phương pháp giải',
+                'Bài 4: Ứng dụng thực tế'
+            ];
+            
+            return lessons.map((lesson, index) => `
+                <button onclick="showLesson('${topicId}', ${index + 1}, '${type}')" class="w-full text-left p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors">
+                    <div class="flex items-center justify-between">
+                        <span class="text-gray-700">${lesson}</span>
+                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </div>
+                </button>
+            `).join('');
+        }
+
+        function showLesson(topicId, lessonNumber, type) {
+            const content = document.getElementById('learningContent');
+            
+            const topicTitles = {
+                functions: 'Hàm Số',
+                quadratic: 'Hàm Số Bậc Hai',
+                trinomial: 'Dấu Tam Thức Bậc Hai',
+                equations: 'PT Quy Về Bậc Hai',
+                comprehensive1: 'Tổng Hợp Chuyên Đề 1',
+                comprehensive2: 'Tổng Hợp Chuyên Đề 2',
+                comprehensive3: 'Tổng Hợp Chuyên Đề 3',
+                comprehensive4: 'Tổng Hợp Chuyên Đề 4'
+            };
+            
+            if (type === 'theory') {
+                content.innerHTML = `
+                    <div class="max-w-4xl mx-auto">
+                        <div class="flex items-center mb-6">
+                            <button onclick="showLearningType('theory')" class="mr-4 p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                                <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                </svg>
+                            </button>
+                            <h3 class="text-2xl font-bold text-gray-800">${topicTitles[topicId]} - Bài ${lessonNumber}</h3>
+                        </div>
+                        
+                        <div class="bg-gradient-to-r from-pink-50 to-purple-50 rounded-2xl p-8">
+                            <div class="prose max-w-none">
+                                <h4 class="text-xl font-semibold text-gray-800 mb-4">Nội dung bài học</h4>
+                                <div class="space-y-4 text-gray-700">
+                                    <p>Đây là nội dung lý thuyết chi tiết cho <strong>${topicTitles[topicId]} - Bài ${lessonNumber}</strong>.</p>
+                                    
+                                    <div class="bg-white rounded-lg p-4 border-l-4 border-pink-500">
+                                        <h5 class="font-semibold text-gray-800 mb-2">Định nghĩa:</h5>
+                                        <p>Khái niệm cơ bản và định nghĩa quan trọng được trình bày một cách dễ hiểu.</p>
+                                    </div>
+                                    
+                                    <div class="bg-white rounded-lg p-4 border-l-4 border-blue-500">
+                                        <h5 class="font-semibold text-gray-800 mb-2">Công thức:</h5>
+                                        <p>Các công thức quan trọng và cách áp dụng trong bài toán cụ thể.</p>
+                                    </div>
+                                    
+                                    <div class="bg-white rounded-lg p-4 border-l-4 border-green-500">
+                                        <h5 class="font-semibold text-gray-800 mb-2">Ví dụ:</h5>
+                                        <p>Bài tập mẫu với lời giải chi tiết từng bước.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (type === 'mindmap') {
+                content.innerHTML = `
+                    <div class="max-w-4xl mx-auto">
+                        <div class="flex items-center mb-6">
+                            <button onclick="showLearningType('mindmap')" class="mr-4 p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                                <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                </svg>
+                            </button>
+                            <h3 class="text-2xl font-bold text-gray-800">Sơ đồ tư duy - ${topicTitles[topicId]} Bài ${lessonNumber}</h3>
+                        </div>
+                        
+                        <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-8">
+                            <div class="flex justify-center">
+                                <div class="relative">
+                                    <!-- Central Node -->
+                                    <div class="bg-gradient-to-r from-pink-500 to-purple-500 text-white px-6 py-4 rounded-2xl text-center font-bold shadow-lg">
+                                        ${topicTitles[topicId]}<br>Bài ${lessonNumber}
+                                    </div>
+                                    
+                                    <!-- Branch Nodes -->
+                                    <div class="absolute -top-16 -left-32 bg-blue-100 px-4 py-2 rounded-lg shadow-md">
+                                        <div class="text-sm font-medium text-blue-800">Khái niệm</div>
+                                    </div>
+                                    
+                                    <div class="absolute -top-16 left-32 bg-green-100 px-4 py-2 rounded-lg shadow-md">
+                                        <div class="text-sm font-medium text-green-800">Công thức</div>
+                                    </div>
+                                    
+                                    <div class="absolute top-16 -left-32 bg-yellow-100 px-4 py-2 rounded-lg shadow-md">
+                                        <div class="text-sm font-medium text-yellow-800">Ví dụ</div>
+                                    </div>
+                                    
+                                    <div class="absolute top-16 left-32 bg-purple-100 px-4 py-2 rounded-lg shadow-md">
+                                        <div class="text-sm font-medium text-purple-800">Ứng dụng</div>
+                                    </div>
+                                    
+                                    <!-- Connection Lines -->
+                                    <svg class="absolute inset-0 w-full h-full pointer-events-none" style="z-index: -1;">
+                                        <line x1="50%" y1="50%" x2="20%" y2="20%" stroke="#e5e7eb" stroke-width="2"/>
+                                        <line x1="50%" y1="50%" x2="80%" y2="20%" stroke="#e5e7eb" stroke-width="2"/>
+                                        <line x1="50%" y1="50%" x2="20%" y2="80%" stroke="#e5e7eb" stroke-width="2"/>
+                                        <line x1="50%" y1="50%" x2="80%" y2="80%" stroke="#e5e7eb" stroke-width="2"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-8 text-center">
+                                <p class="text-gray-600">Sơ đồ tư duy giúp bạn hệ thống hóa kiến thức một cách trực quan và dễ nhớ</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (type === 'video') {
+                content.innerHTML = `
+                    <div class="max-w-4xl mx-auto">
+                        <div class="flex items-center mb-6">
+                            <button onclick="showLearningType('video')" class="mr-4 p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                                <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                </svg>
+                            </button>
+                            <h3 class="text-2xl font-bold text-gray-800">Video bài giảng - ${topicTitles[topicId]} Bài ${lessonNumber}</h3>
+                        </div>
+                        
+                        <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-8">
+                            <!-- Video Placeholder -->
+                            <div class="bg-black rounded-xl aspect-video flex items-center justify-center mb-6">
+                                <div class="text-center text-white">
+                                    <svg class="w-16 h-16 mx-auto mb-4 opacity-50" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M8 5v14l11-7z"/>
+                                    </svg>
+                                    <p class="text-lg font-medium">Video bài giảng</p>
+                                    <p class="text-sm opacity-75">${topicTitles[topicId]} - Bài ${lessonNumber}</p>
+                                    <button class="mt-4 bg-pink-500 hover:bg-pink-600 px-6 py-2 rounded-lg transition-colors">
+                                        Phát video
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Video Info -->
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="bg-white rounded-lg p-4">
+                                    <h4 class="font-semibold text-gray-800 mb-2">Thông tin video</h4>
+                                    <ul class="text-sm text-gray-600 space-y-1">
+                                        <li>• Thời lượng: 15 phút</li>
+                                        <li>• Chất lượng: HD 1080p</li>
+                                        <li>• Phụ đề: Tiếng Việt</li>
+                                        <li>• Giảng viên: Thầy Nguyễn Văn A</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="bg-white rounded-lg p-4">
+                                    <h4 class="font-semibold text-gray-800 mb-2">Nội dung chính</h4>
+                                    <ul class="text-sm text-gray-600 space-y-1">
+                                        <li>• Giới thiệu khái niệm</li>
+                                        <li>• Phân tích công thức</li>
+                                        <li>• Bài tập ví dụ</li>
+                                        <li>• Tổng kết và lưu ý</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // Close modals when clicking outside
+        document.getElementById('loginModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLoginModal();
+            }
+        });
+
+        document.getElementById('learningModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLearningModal();
+            }
+        });
+
+        document.getElementById('practiceModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePracticeModal();
+            }
+        });
+
+        document.getElementById('chatModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeChatModal();
+            }
+        });
+
+        document.getElementById('examModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeExamModal();
+            }
+        });
+
+        document.getElementById('examDetailModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeExamDetailModal();
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96f097f3a04e4098',t:'MTc1NTE3NTk5MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
